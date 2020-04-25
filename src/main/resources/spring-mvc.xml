@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <description>Spring MVC Configuration</description>
+
+    <!-- 加载配置属性文件,引用本地的springmvc.properties配置文件(项目名.properties) -->
+    <context:property-placeholder ignore-unresolvable="true" location="classpath:springmvc.properties"/>
+
+    <!-- 使用 Annotation(注解) 自动注册 Bean,只扫描 @Controller 扫描包"com.beyond.spring.mvc"下-->
+    <!-- 因为这里只扫描controlle，而且在spring-conetxt.xml中也扫描了controllr，所以在spring-conetxt.xml中-->
+    <!-- 扫描中应该去除controller的扫描-->
+    <context:component-scan base-package="com.beyond.spring.mvc" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- 默认的注解映射的支持,这句必须有 -->
+    <mvc:annotation-driven />
+
+    <!-- 定义视图文件解析,这里的value的值，是在上边引用的springmvc.properties文件中定义的，前缀与后缀的值 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="${web.view.prefix}"/>
+        <property name="suffix" value="${web.view.suffix}"/>
+    </bean>
+
+    <!-- 静态资源映射,本地静态资源的存放路径,这里的配置需要pom.xml中依赖org.springframework：spring-context，不然报错 -->
+    <mvc:resources mapping="/static/**" location="/static/" cache-period="31536000"/>
+</beans>
