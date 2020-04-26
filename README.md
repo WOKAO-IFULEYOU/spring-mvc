@@ -152,6 +152,20 @@
 
     <!-- 静态资源映射,本地静态资源的存放路径,这里的配置需要pom.xml中依赖org.springframework：spring-context，不然报错 -->
     <mvc:resources mapping="/static/**" location="/static/" cache-period="31536000"/>
+    
+    <!-- 拦截器配置，拦截顺序：先执行后定义的，排在第一位的最后执行。-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- 拦截器全路径。-->
+            <mvc:mapping path="/**"/>
+            <!-- 拦截器不需要拦截但路径。-->
+            <mvc:exclude-mapping path="/static/**"/>
+            <!-- 拦截器不需要拦截但路径。-->
+            <mvc:exclude-mapping path="/hello"/>
+            <!-- 指定拦截器是哪个类。-->
+            <bean class="com.beyond.spring.mvc.web.interceptor.HelloInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>
 ```
 ## springmvc.propertise
