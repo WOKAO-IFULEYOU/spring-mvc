@@ -18,7 +18,7 @@ public class HelloInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
 
         // true：放行    false：拦截，不放行
-        return false;
+        return true;
     }
 
     /*
